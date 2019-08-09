@@ -17,14 +17,14 @@ A readme file that should be shipped with the mod.
 A folder containing resources such as text files or asset files (textures, materials, models and prefabs etc.).
 It should follow the same structure of loose files inside StreamingAssets (i.e. Resources/IconPacks/), although this is often not mandatory.
 
+~/Resources/Shaders
+A folder containing Unity shaders.
+
 ~/Scripts
 A folder containing C# scripts.
 
 ~/Scripts/Editor
 A folder containing C# scripts for the Unity Editor.
-
-~/Shaders
-A folder containing Unity shaders.
 
 ~/Out~
 A possible target directory for the Mod Builder, which is not imported by Unity so no unnecessary .meta files are created.

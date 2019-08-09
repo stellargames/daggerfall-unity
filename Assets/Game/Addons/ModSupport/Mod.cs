@@ -13,6 +13,8 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using DaggerfallWorkshop.Utility;
 
@@ -155,6 +157,14 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
         /// </summary>
         public IHasModSaveData SaveDataInterface { internal get; set; }
 
+#if UNITY_EDITOR
+        /// <summary>
+        /// If true this mod is associated to a standalone manifest file rather than an assetbundle.
+        /// This is only useful for mod development and testing, specifically to benefit of debuggers.
+        /// </summary>
+        public bool IsVirtual { get; private set; }
+#endif
+
         #endregion
 
         #region Constructors
@@ -196,6 +206,23 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
             Debug.Log(string.Format("Finished Mod setup: {0}", this.Title));
 #endif
         }
+
+#if UNITY_EDITOR
+        /// <summary>
+        /// Makes a mod from a manifest file without an assetbundle.
+        /// This is only useful for mod development and testing, specifically to benefit of debuggers.
+        /// </summary>
+        /// <param name="manifestPath">Full or relative path to .dfmod.json file, rooted at Mods/.</param>
+        public Mod(string manifestPath)
+        {
+            if (!Path.IsPathRooted(manifestPath))
+                manifestPath = Application.dataPath + "/Game/Mods/" + manifestPath;
+
+            IsVirtual = true;
+            modInfo = JsonUtility.FromJson<ModInfo>(File.ReadAllText(manifestPath));
+            loadedAssets = new Dictionary<string, LoadedAsset>();
+        }
+#endif
 
         #endregion
 
@@ -364,6 +391,14 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
         /// </summary>
         public ModSettings.ModSettings GetSettings()
         {
+#if UNITY_EDITOR
+            if (IsVirtual)
+            {
+                string path = modInfo.Files.First(CompareNameWithPath("modsettings.json"));
+                return new ModSettings.ModSettings(path.Replace("Assets", Application.dataPath));
+            }
+#endif
+
             return new ModSettings.ModSettings(this);
         }
 
@@ -406,8 +441,9 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
             // Get fallback table from mod
             if (!textdatabaseLoaded)
             {
-                if (assetBundle.Contains("textdatabase.txt"))
-                    textdatabase = new Table(GetAsset<TextAsset>("textdatabase.txt").ToString());
+                string tableContent = ReadText("textdatabase.txt");
+                if (tableContent != null)
+                    textdatabase = new Table(tableContent);
                 textdatabaseLoaded = true;
             }
 
@@ -455,6 +491,20 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
                     la = loadedAssets[assetName];
                     return la.Obj as T;
                 }
+
+#if UNITY_EDITOR
+                if (IsVirtual)
+                {
+                    la.Obj = LoadAssetFromResources<T>(assetName);
+                    if (la.Obj != null)
+                    {
+                        la.T = la.Obj.GetType();
+                        loadedAssets.Add(assetName, la);
+                    }
+                    return la.Obj as T;
+                }
+#endif
+
                 if (assetBundle == null)
                     loadedBundle = LoadAssetBundle();
 
@@ -478,6 +528,60 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
                 return null;
             }
         }
+
+        /// <summary>
+        /// Gets content of a text file.
+        /// </summary>
+        /// <param name="name">Name of text file.</param>
+        /// <returns>Content of text file or null.</returns>
+        private string ReadText(string name)
+        {
+#if UNITY_EDITOR
+            if (IsVirtual)
+            {
+                string path = modInfo.Files.FirstOrDefault(CompareNameWithPath(name));
+                if (path != null)
+                    return File.ReadAllText(path);
+            }
+#endif
+
+            if (assetBundle.Contains(name))
+                return GetAsset<TextAsset>(name).ToString();
+
+            return null;
+        }
+
+#if UNITY_EDITOR
+        /// <summary>
+        /// Load an asset from its name. The asset path must contain a folder named Resources and be defined in the manifest file.
+        /// </summary>
+        /// <typeparam name="T">Asset type.</typeparam>
+        /// <param name="name">Name of the asset.</param>
+        /// <returns>The loaded asset or null.</returns>
+        private T LoadAssetFromResources<T>(string name) where T : UnityEngine.Object
+        {
+            foreach (string path in modInfo.Files.Where(CompareNameWithPath(name)))
+            {
+                int index = path.LastIndexOf("Resources/");
+                if (index != -1)
+                {
+                    string relPath = Path.ChangeExtension(path.Substring(index + "Resources/".Length), null);
+                    var asset = Resources.Load<T>(relPath);
+                    if (asset)
+                        return asset;
+                }
+            }
+
+            return null;
+        }
+
+        private Func<string, bool> CompareNameWithPath(string name)
+        {
+            if (Path.HasExtension(name))
+                return x => Path.GetFileName(x).ToLower() == name;
+            return x => Path.GetFileNameWithoutExtension(x).ToLower() == name;
+        }
+#endif
 
         #endregion
 
