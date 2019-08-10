@@ -4,12 +4,15 @@
 // License:         MIT License (http://www.opensource.org/licenses/mit-license.php)
 // Source Code:     https://github.com/Interkarma/daggerfall-unity
 // Original Author: Lypyl (lypyl@dfworkshop.net)
-// Contributors:    
+// Contributors:    TheLacus
 // 
 // Notes:
 //
 
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -227,6 +230,34 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
         #endregion
 
         #region Public Methods
+
+        /// <summary>
+        /// Checks if this mod contains an asset with the given name.
+        /// </summary>
+        /// <param name="assetName">The name of the asset.</param>
+        /// <returns>True if asset is provided by this mod.</returns>
+        public bool HasAsset(string assetName)
+        {
+#if UNITY_EDITOR
+            if (IsVirtual)
+                return modInfo.Files.Any(CompareNameWithPath(assetName));
+#endif
+
+            if (assetBundle)
+                return assetBundle.Contains(assetName);
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if an asset has already been loaded and can be retrieved without loading it again.
+        /// </summary>
+        /// <param name="assetName">The name of the asset.</param>
+        /// <returns>True if the asset is already loaded.</returns>
+        public bool IsAssetLoaded(string assetName)
+        {
+            return loadedAssets.ContainsKey(assetName);
+        }
 
         /// <summary>
         /// Loads an asset from the assetbundle of this mod and cache it.
@@ -553,26 +584,15 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
 
 #if UNITY_EDITOR
         /// <summary>
-        /// Load an asset from its name. The asset path must contain a folder named Resources and be defined in the manifest file.
+        /// Load an asset from its name. The asset path must be defined in the manifest file.
         /// </summary>
         /// <typeparam name="T">Asset type.</typeparam>
         /// <param name="name">Name of the asset.</param>
         /// <returns>The loaded asset or null.</returns>
         private T LoadAssetFromResources<T>(string name) where T : UnityEngine.Object
         {
-            foreach (string path in modInfo.Files.Where(CompareNameWithPath(name)))
-            {
-                int index = path.LastIndexOf("Resources/");
-                if (index != -1)
-                {
-                    string relPath = Path.ChangeExtension(path.Substring(index + "Resources/".Length), null);
-                    var asset = Resources.Load<T>(relPath);
-                    if (asset)
-                        return asset;
-                }
-            }
-
-            return null;
+            return modInfo.Files.Where(CompareNameWithPath(name)).Select(x =>
+                AssetDatabase.LoadAssetAtPath<T>(x)).FirstOrDefault(x => x != null);
         }
 
         private Func<string, bool> CompareNameWithPath(string name)
@@ -777,16 +797,6 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
 
             modLoaders.Sort();
             return modLoaders;
-        }
-
-        /// <summary>
-        /// Checks if an asset has already been loaded and can be retrieved without loading it again.
-        /// </summary>
-        /// <param name="assetName">The name of the asset.</param>
-        /// <returns>True if the asset is already loaded.</returns>
-        public bool IsAssetLoaded(string assetName)
-        {
-            return loadedAssets.ContainsKey(assetName);
         }
 
         private bool AddAsset(string assetName, UnityEngine.Object asset)
