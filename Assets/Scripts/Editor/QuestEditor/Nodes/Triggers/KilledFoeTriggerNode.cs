@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using DaggerfallWorkshop.Game.Questing;
 using DaggerfallWorkshop.Game.Questing.Actions;
@@ -17,14 +16,11 @@ public class KilledFoeTriggerNode : ActionNode
 
     [Output(ShowBackingValue.Always)] public bool trigger;
 
-    protected override Type GetActionType()
+    protected override void Init()
     {
-        return typeof(KilledFoe);
-    }
-
-    public override object GetValue(NodePort port)
-    {
-        return trigger;
+        base.Init();
+        triggered = true;
+        IsTriggerCondition = true;
     }
 
     public override ActionTemplate GetAction()
@@ -44,4 +40,8 @@ public class KilledFoeTriggerNode : ActionNode
         };
     }
 
+    public override object GetValue(NodePort port)
+    {
+        return trigger;
+    }
 }

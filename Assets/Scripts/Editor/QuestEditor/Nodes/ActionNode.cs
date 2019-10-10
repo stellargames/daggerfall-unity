@@ -5,7 +5,7 @@ using XNode;
 [NodeTint(0.4f, 0.6f, 1f)]
 public abstract class ActionNode : Node
 {
-    [Input(typeConstraint = TypeConstraint.Strict)] public ActionNode triggered;
+    [Input] public bool triggered;
     protected Quest Quest;
 
     public Type type;
@@ -20,7 +20,7 @@ public abstract class ActionNode : Node
     
     public override object GetValue(NodePort port)
     {
-        return this;
+        return triggered;
     }
 
     protected override void Init()
@@ -33,7 +33,7 @@ public abstract class ActionNode : Node
     {
         return new ActionTemplate.ActionSaveData_v1
         {
-            type = GetActionType(),
+            type = GetType(),
             isComplete = false,
             isTriggerCondition = IsTriggerCondition,
             isAlwaysOnTriggerCondition = IsAlwaysOnTriggerCondition,
@@ -41,6 +41,4 @@ public abstract class ActionNode : Node
             actionSpecific = GetSaveData()
         };
     }
-
-    protected abstract Type GetActionType();
 }
