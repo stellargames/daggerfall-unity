@@ -1,4 +1,5 @@
-﻿using DaggerfallWorkshop.Game.Questing;
+﻿using System;
+using DaggerfallWorkshop.Game.Questing;
 using DaggerfallWorkshop.Game.Questing.Actions;
 
 [CreateNodeMenu("Action/EndQuest")]
@@ -16,5 +17,10 @@ public class EndQuestNode : ActionNode
     protected override object GetSaveData()
     {
         return new EndQuest.SaveData_v1 {textId = textId };
+    }
+
+    protected override Type GetActionType()
+    {
+        return typeof(EndQuest);
     }
 }

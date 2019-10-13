@@ -9,7 +9,7 @@ public class MessageNode : Node
 
     public override object GetValue(NodePort port)
     {
-        return id;
+        return this;
     }
 
     public Message.MessageSaveData_v1 GetSaveData()

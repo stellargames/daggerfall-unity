@@ -2,29 +2,38 @@
 using System.Collections.Generic;
 using System.Linq;
 using DaggerfallWorkshop.Game.Questing;
+using UnityEditor;
 using UnityEngine;
 using XNode;
 
 [NodeTint(0.2f, 0.8f, 0.4f)]
-public class TaskNode : Node
+public class TaskNode : Node, ISymbolize, IChangeInput
 {
+    public string Symbol
+    {
+        get { return symbol; }
+        set { symbol = value; }
+    }
+    
     public Task.TaskType type;
     public string symbol;
     [Input(ShowBackingValue.Always)] public bool triggered;
-    [Output(ShowBackingValue.Always)] public bool trigger;
 
+    [Output(dynamicPortList = true, typeConstraint = TypeConstraint.Strict)] public ActionNode trigger;
+    
     protected Symbol targetSymbol;
     protected bool prevTriggered;
     protected bool dropped;
     protected string globalVarName;
-    protected int globalVarLink;
+    protected int globalVarLink = -1;
     protected Quest Quest;
 
     public Task.TaskSaveData_v1 GetSaveData()
     {
-        var connections = GetInputPort("triggered").GetConnections().Concat(
-            GetOutputPort("trigger").GetConnections()
-        );
+        var triggers = GetInputPort("triggered").GetConnections().Select(x => ((ActionNode) x.node).GetActionSaveData());
+        NodePort outputPort = GetOutputPort("trigger");
+        var nodePorts = outputPort.GetConnections();
+        var actionNodes = nodePorts.Select(x => ((ActionNode) x.node).GetActionSaveData());
 
         Task.TaskSaveData_v1 data = new Task.TaskSaveData_v1
         {
@@ -35,9 +44,9 @@ public class TaskNode : Node
             type = type,
             dropped = dropped,
             globalVarName = globalVarName,
-            globalVarLink = globalVarLink,
+            globalVarLink = type == Task.TaskType.GlobalVarLink ? globalVarLink : -1,
             hasTriggerConditions = GetInputPort("triggered").IsConnected,
-            actions = connections.Select(port => port.node).OfType<ActionNode>().Select(actionNode => actionNode.GetActionSaveData()).ToArray()
+            actions = triggers.Concat(actionNodes).ToArray()
         };
 
         return data;
@@ -46,8 +55,7 @@ public class TaskNode : Node
     // Return the correct value of an output port when requested
     public override object GetValue(NodePort port)
     {
-        triggered = GetInputValue<bool>("triggered");
-        return symbol;
+        return triggered;
     }
 
     public Task GetTask()
@@ -61,5 +69,14 @@ public class TaskNode : Node
     {
         base.Init();
         Quest = ((QuestNodeGraph) graph).Quest;
+        triggered = GetInputValue<bool>("triggered");
+    }
+
+    public void InputChanged(string fieldName, SerializedProperty property)
+    {
+        if (fieldName == "triggered")
+        {
+            triggered = property.boolValue;
+        }
     }
 }
