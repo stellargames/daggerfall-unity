@@ -1,13 +1,21 @@
+using System;
 using DaggerfallWorkshop.Game.Questing;
+using UnityEngine;
 using XNode;
 
-public abstract class ResourceNode : Node
+[Serializable]
+public abstract class ResourceNode : Node, ISymbolize
 {
-    [Output(ShowBackingValue.Always)] public string symbol;
+    public string Symbol
+    {
+        get { return symbol; }
+        set { symbol = value; }
+    }
+    
+    [SerializeField] private string symbol;
     public int infoMessageId;
     public int usedMessageId;
     public int rumorsMessageId;
-    private bool hasPlayerClicked;
     public bool isHidden;
     protected Quest Quest;
 
@@ -17,19 +25,28 @@ public abstract class ResourceNode : Node
         Quest = ((QuestNodeGraph) graph).Quest;
     }
 
+    public override object GetValue(NodePort port)
+    {
+        return this;
+    }
+
     public QuestResource.ResourceSaveData_v1 GetResourceSaveData()
     {
         return new QuestResource.ResourceSaveData_v1
         {
-            type = GetType(),
+            type = GetResourceType(),
             symbol = new Symbol(symbol),
             infoMessageID = infoMessageId,
+            rumorsMessageID = rumorsMessageId,
             usedMessageID = usedMessageId,
-            hasPlayerClicked = hasPlayerClicked,
+            hasPlayerClicked = false,
             isHidden = isHidden,
             resourceSpecific = GetSaveData()
         };
     }
 
+    protected abstract Type GetResourceType();
+
     protected abstract object GetSaveData();
+    protected abstract QuestResource GetResource();
 }

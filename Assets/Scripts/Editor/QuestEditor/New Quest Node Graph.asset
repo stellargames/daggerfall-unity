@@ -15,11 +15,9 @@ MonoBehaviour:
   - {fileID: 114299294388579440}
   - {fileID: 114860601115313300}
   - {fileID: 114862874650465252}
-  - {fileID: 114835408013876514}
-  - {fileID: 114432853568877866}
-  - {fileID: 114350384033220736}
   - {fileID: 114643493832658760}
-  - {fileID: 114709086461483452}
+  - {fileID: 114324660043693224}
+  - {fileID: 114897378562391576}
   uid: 0
   questComplete: 0
   questSuccess: 0
@@ -42,6 +40,62 @@ MonoBehaviour:
     Minute: 0
     Second: 0
   activeLogMessages: []
+  editMode: 0
+--- !u!114 &114234658394584584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Location
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::LocationNode
+  graph: {fileID: 11400000}
+  position: {x: -347.5, y: -218}
+  ports:
+    keys:
+    - symbol
+    values:
+    - _fieldName: symbol
+      _node: {fileID: 114234658394584584}
+      _typeQualifiedName: System.String, mscorlib, Version=2.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  symbol: 
+  infoMessageId: 0
+  usedMessageId: 0
+  rumorsMessageId: 0
+  isHidden: 0
+  scope: 0
+  name: 
+  p1: 0
+  p2: 0
+  p3: 0
+  siteDetails:
+    siteType: 0
+    mapId: 0
+    locationId: 0
+    regionName: 
+    locationName: 
+    buildingKey: 0
+    buildingName: 
+    questSpawnMarkers: []
+    questItemMarkers: []
+    selectedQuestSpawnMarker: 0
+    selectedQuestItemMarker: 0
+    selectedMarker:
+      markerType: 0
+      flatPosition: {x: 0, y: 0, z: 0}
+      dungeonX: 0
+      dungeonZ: 0
+      buildingKey: 0
+    magicNumberIndex: 0
 --- !u!114 &114299294388579440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54,81 +108,81 @@ MonoBehaviour:
   m_Name: End Quest
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 472, y: -408}
+  position: {x: 584, y: -600}
   ports:
     keys:
     - triggered
     values:
     - _fieldName: triggered
       _node: {fileID: 114299294388579440}
+      _typeQualifiedName: ActionNode, Assembly-CSharp-Editor, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: trigger 0
+        node: {fileID: 114324660043693224}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  triggered: {fileID: 0}
+  textId: 0
+--- !u!114 &114324660043693224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e2c96167f8df440a6ac05e090d5f63, type: 3}
+  m_Name: Task
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 248, y: -744}
+  ports:
+    keys:
+    - triggered
+    - trigger
+    - trigger 0
+    values:
+    - _fieldName: triggered
+      _node: {fileID: 114324660043693224}
       _typeQualifiedName: System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral,
         PublicKeyToken=b77a5c561934e089
       connections:
       - fieldName: trigger
-        node: {fileID: 114709086461483452}
+        node: {fileID: 114860601115313300}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  triggered: 0
-  textId: 0
---- !u!114 &114350384033220736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62804fd4ed5b7fc47b799a8294d3b05d, type: 3}
-  m_Name: Message
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: -696, y: -8}
-  ports:
-    keys:
-    - id
-    values:
-    - _fieldName: id
-      _node: {fileID: 114350384033220736}
-      _typeQualifiedName: System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
+    - _fieldName: trigger
+      _node: {fileID: 114324660043693224}
+      _typeQualifiedName: ActionNode, Assembly-CSharp-Editor, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
       connections: []
       _direction: 1
       _connectionType: 0
-      _typeConstraint: 0
+      _typeConstraint: 2
       _dynamic: 0
-  id: 0
-  lines: []
---- !u!114 &114432853568877866
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62804fd4ed5b7fc47b799a8294d3b05d, type: 3}
-  m_Name: Message
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: -696, y: -168}
-  ports:
-    keys:
-    - id
-    values:
-    - _fieldName: id
-      _node: {fileID: 114432853568877866}
-      _typeQualifiedName: System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
-      connections: []
+    - _fieldName: trigger 0
+      _node: {fileID: 114324660043693224}
+      _typeQualifiedName: ActionNode, Assembly-CSharp-Editor, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: triggered
+        node: {fileID: 114299294388579440}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
-      _dynamic: 0
-  id: 0
-  lines: []
+      _dynamic: 1
+  type: 1
+  symbol: 
+  triggered: 1
+  trigger: {fileID: 0}
 --- !u!114 &114643493832658760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,7 +195,7 @@ MonoBehaviour:
   m_Name: Create Foe
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -88, y: -248}
+  position: {x: 232, y: -504}
   ports:
     keys:
     - triggered
@@ -149,77 +203,34 @@ MonoBehaviour:
     values:
     - _fieldName: triggered
       _node: {fileID: 114643493832658760}
-      _typeQualifiedName: System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
-      connections: []
+      _typeQualifiedName: ActionNode, Assembly-CSharp-Editor, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: trigger 0
+        node: {fileID: 114897378562391576}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
-      _typeConstraint: 0
+      _typeConstraint: 2
       _dynamic: 0
     - _fieldName: foe
       _node: {fileID: 114643493832658760}
-      _typeQualifiedName: System.String, mscorlib, Version=2.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
+      _typeQualifiedName: FoeNode, Assembly-CSharp-Editor, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
       connections:
-      - fieldName: symbol
+      - fieldName: foe
         node: {fileID: 114862874650465252}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  triggered: 0
-  foe: 
+  triggered: {fileID: 0}
+  foe: {fileID: 0}
   spawnInterval: 0
   spawnMaxTimes: 0
-  spawnChance: 0
+  spawnChance: 100
   msgMessageID: 0
---- !u!114 &114709086461483452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1e2c96167f8df440a6ac05e090d5f63, type: 3}
-  m_Name: Task
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 168, y: -504}
-  ports:
-    keys:
-    - triggered
-    - trigger
-    values:
-    - _fieldName: triggered
-      _node: {fileID: 114709086461483452}
-      _typeQualifiedName: System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
-      connections:
-      - fieldName: trigger
-        node: {fileID: 114860601115313300}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: trigger
-      _node: {fileID: 114709086461483452}
-      _typeQualifiedName: System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
-      connections:
-      - fieldName: triggered
-        node: {fileID: 114299294388579440}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  type: 1
-  symbol: S.05
-  triggered: 0
-  trigger: 0
 --- !u!114 &114808738255132302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,34 +257,6 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 0
---- !u!114 &114835408013876514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62804fd4ed5b7fc47b799a8294d3b05d, type: 3}
-  m_Name: Message
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: -696, y: -312}
-  ports:
-    keys:
-    - id
-    values:
-    - _fieldName: id
-      _node: {fileID: 114835408013876514}
-      _typeQualifiedName: System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  id: 0
-  lines: []
 --- !u!114 &114860601115313300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,7 +269,7 @@ MonoBehaviour:
   m_Name: Killed Foe Trigger
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -104, y: -536}
+  position: {x: -72, y: -760}
   ports:
     keys:
     - trigger
@@ -299,7 +282,7 @@ MonoBehaviour:
         PublicKeyToken=b77a5c561934e089
       connections:
       - fieldName: triggered
-        node: {fileID: 114709086461483452}
+        node: {fileID: 114324660043693224}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -310,7 +293,7 @@ MonoBehaviour:
       _typeQualifiedName: System.String, mscorlib, Version=2.0.0.0, Culture=neutral,
         PublicKeyToken=b77a5c561934e089
       connections:
-      - fieldName: symbol
+      - fieldName: foe
         node: {fileID: 114862874650465252}
         reroutePoints: []
       _direction: 0
@@ -319,18 +302,18 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: triggered
       _node: {fileID: 114860601115313300}
-      _typeQualifiedName: System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
+      _typeQualifiedName: ActionNode, Assembly-CSharp-Editor, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
       connections: []
       _direction: 0
       _connectionType: 0
-      _typeConstraint: 0
+      _typeConstraint: 2
       _dynamic: 0
-  triggered: 0
+  triggered: {fileID: 0}
   foe: 
   killsRequired: 0
   sayingId: 0
-  trigger: 0
+  trigger: 1
 --- !u!114 &114862874650465252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,44 +326,98 @@ MonoBehaviour:
   m_Name: Foe
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -440, y: -520}
+  position: {x: -392, y: -664}
   ports:
     keys:
     - foe
-    - symbol
     values:
     - _fieldName: foe
       _node: {fileID: 114862874650465252}
-      _typeQualifiedName: DaggerfallWorkshop.Game.Questing.Foe, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
+      _typeQualifiedName: FoeNode, Assembly-CSharp-Editor, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: foe
+        node: {fileID: 114643493832658760}
+        reroutePoints: []
+      - fieldName: foe
+        node: {fileID: 114860601115313300}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-    - _fieldName: symbol
-      _node: {fileID: 114862874650465252}
-      _typeQualifiedName: System.String, mscorlib, Version=2.0.0.0, Culture=neutral,
+  symbol: F.00
+  infoMessageId: 0
+  usedMessageId: 0
+  rumorsMessageId: 0
+  isHidden: 0
+  foe: {fileID: 0}
+  spawnCount: 4
+  displayName: Pete
+  foeType: 128
+  humanoidGender: 1
+  injuredTrigger: 0
+  restrained: 0
+--- !u!114 &114897378562391576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e2c96167f8df440a6ac05e090d5f63, type: 3}
+  m_Name: Task
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -200, y: -376}
+  ports:
+    keys:
+    - triggered
+    - actions 0
+    - trigger
+    - trigger 0
+    values:
+    - _fieldName: triggered
+      _node: {fileID: 114897378562391576}
+      _typeQualifiedName: System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral,
         PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: actions 0
+      _node: {fileID: 114897378562391576}
+      _typeQualifiedName: ActionNode[], Assembly-CSharp-Editor, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: trigger
+      _node: {fileID: 114897378562391576}
+      _typeQualifiedName: ActionNode, Assembly-CSharp-Editor, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: trigger 0
+      _node: {fileID: 114897378562391576}
+      _typeQualifiedName: ActionNode, Assembly-CSharp-Editor, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
       connections:
-      - fieldName: foe
-        node: {fileID: 114860601115313300}
-        reroutePoints: []
-      - fieldName: foe
+      - fieldName: triggered
         node: {fileID: 114643493832658760}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
-      _dynamic: 0
-  symbol: rats
-  infoMessageId: 0
-  usedMessageId: 0
-  rumorsMessageId: 0
-  isHidden: 0
-  spawnCount: 4
-  displayName: 
-  foeType: 0
-  humanoidGender: 0
-  injuredTrigger: 0
-  restrained: 0
+      _dynamic: 1
+  type: 0
+  symbol: gfhujjgj
+  triggered: 0
+  trigger: {fileID: 0}
