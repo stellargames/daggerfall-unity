@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Name: Sample Quest
   m_EditorClassIdentifier: 
   nodes:
-  - {fileID: 114523297170076608}
   - {fileID: 114032027152951300}
   - {fileID: 114279393333621652}
   - {fileID: 114808316310187072}
   - {fileID: 114384704192172056}
   - {fileID: 114106237318610902}
+  - {fileID: 114301426348629420}
   uid: 0
   questComplete: 0
   questSuccess: 0
@@ -152,7 +152,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: trigger 0
-        node: {fileID: 114523297170076608}
+        node: {fileID: 114301426348629420}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -165,6 +165,59 @@ MonoBehaviour:
   spawnMaxTimes: 9
   spawnChance: 100
   msgMessageId: 0
+--- !u!114 &114301426348629420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e2c96167f8df440a6ac05e090d5f63, type: 3}
+  m_Name: Task
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -589, y: -383.5}
+  ports:
+    keys:
+    - triggered
+    - trigger
+    - trigger 0
+    values:
+    - _fieldName: triggered
+      _node: {fileID: 114301426348629420}
+      _typeQualifiedName: System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: trigger
+      _node: {fileID: 114301426348629420}
+      _typeQualifiedName: QuestEditor.Nodes.TaskNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: trigger 0
+      _node: {fileID: 114301426348629420}
+      _typeQualifiedName: QuestEditor.Nodes.TaskNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: triggered
+        node: {fileID: 114279393333621652}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 1
+  type: 0
+  symbol: 
+  triggered: 0
+  trigger: {fileID: 0}
 --- !u!114 &114384704192172056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,59 +272,6 @@ MonoBehaviour:
       _dynamic: 1
   type: 1
   symbol: Success
-  triggered: 0
-  trigger: {fileID: 0}
---- !u!114 &114523297170076608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1e2c96167f8df440a6ac05e090d5f63, type: 3}
-  m_Name: Task
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: -568, y: -360}
-  ports:
-    keys:
-    - triggered
-    - trigger
-    - trigger 0
-    values:
-    - _fieldName: triggered
-      _node: {fileID: 114523297170076608}
-      _typeQualifiedName: System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
-      connections: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: trigger
-      _node: {fileID: 114523297170076608}
-      _typeQualifiedName: QuestEditor.Nodes.TaskNode, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 2
-      _dynamic: 0
-    - _fieldName: trigger 0
-      _node: {fileID: 114523297170076608}
-      _typeQualifiedName: QuestEditor.Nodes.TaskNode, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: triggered
-        node: {fileID: 114279393333621652}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 1
-  type: 0
-  symbol: 
   triggered: 0
   trigger: {fileID: 0}
 --- !u!114 &114808316310187072
