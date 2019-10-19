@@ -1,14 +1,17 @@
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using XNodeEditor;
-using System.Linq;
 using XNode;
+using XNodeEditor;
 
-[CustomNodeEditor(typeof(ActionNode))]
-public class ActionNodeEditor : NodeEditor {
-    
-    /// <summary> Draws standard field editors for all public fields </summary>
-        public override void OnBodyGUI() {
+namespace QuestEditor.Nodes.Editor
+{
+    [CustomNodeEditor(typeof(ActionNode))]
+    public class ActionNodeEditor : NodeEditor
+    {
+        /// <summary> Draws standard field editors for all public fields </summary>
+        public override void OnBodyGUI()
+        {
 #if ODIN_INSPECTOR
             inNodeEditor = true;
 #endif
@@ -30,7 +33,8 @@ public class ActionNodeEditor : NodeEditor {
             // Iterate through serialized properties and draw them like the Inspector (But with ports)
             SerializedProperty iterator = serializedObject.GetIterator();
             bool enterChildren = true;
-            while (iterator.NextVisible(enterChildren)) {
+            while (iterator.NextVisible(enterChildren))
+            {
                 enterChildren = false;
                 if (excludes.Contains(iterator.name)) continue;
 //                NodeEditorGUILayout.PropertyField(iterator, true);
@@ -39,7 +43,8 @@ public class ActionNodeEditor : NodeEditor {
 #endif
 
             // Iterate through dynamic ports and draw them in the order in which they are serialized
-            foreach (XNode.NodePort dynamicPort in target.DynamicPorts) {
+            foreach (NodePort dynamicPort in target.DynamicPorts)
+            {
                 if (NodeEditorGUILayout.IsDynamicPortListPort(dynamicPort)) continue;
                 NodeEditorGUILayout.PortField(dynamicPort);
             }
@@ -59,30 +64,38 @@ public class ActionNodeEditor : NodeEditor {
 #endif
         }
 
-    protected void DrawProperty(SerializedProperty property)
-    {
-        XNode.Node node = property.serializedObject.targetObject as XNode.Node;
-        XNode.NodePort port = node.GetPort(property.name);
-        GUIContent label = null;
-        if (port != null && port.IsConnected && port.IsInput)
+        protected void DrawProperty(SerializedProperty property)
         {
-            var sourceNode = port.Connection.node as ISymbolize;
-            if (sourceNode != null)
-            {
-                var text = string.Format("{0} [{1}]", property.displayName, sourceNode.Symbol);
-                label = new GUIContent(text);
-            }
-        }
+            var node = property.serializedObject.targetObject as ActionNode;
+            if (node == null) return;
+            if (node.isTriggerCondition && property.name == "triggered") return;
+            NodePort port = node.GetPort(property.name);
+            GUIContent label = null;
 
-        EditorGUI.BeginChangeCheck();
-        NodeEditorGUILayout.PropertyField(property, label, port, true);
-        if (!EditorGUI.EndChangeCheck()) return;
-        NodePort outputPort = node.GetOutputPort(property.name);
-        if (!outputPort.IsConnected) return;
-        NodePort inputPort = outputPort.Connection;
-        var otherNode = inputPort.node as IChangeInput;
-        if (otherNode != null) otherNode.InputChanged(inputPort.fieldName, property);
+            // Add parent symbol to input port labels.
+            if (port != null && port.IsConnected && port.IsInput)
+            {
+                var sourceNode = port.Connection.node as ISymbolize;
+                if (sourceNode != null)
+                {
+                    string text = string.Format("{0} [{1}]", property.displayName, sourceNode.Symbol);
+                    label = new GUIContent(text);
+                }
+            }
+
+            // Update child inputs with changes.
+            EditorGUI.BeginChangeCheck();
+            NodeEditorGUILayout.PropertyField(property, label, port);
+
+            if (!EditorGUI.EndChangeCheck()) return;
+            serializedObject.ApplyModifiedProperties();
+
+            NodePort outputPort = node.GetOutputPort(property.name);
+            if (outputPort == null || !outputPort.IsConnected) return;
+            NodePort inputPort = outputPort.Connection;
+
+            var otherNode = inputPort.node as IWatchInput;
+            if (otherNode != null) otherNode.InputChanged(inputPort.fieldName, property);
+        }
     }
-    
-    
 }
