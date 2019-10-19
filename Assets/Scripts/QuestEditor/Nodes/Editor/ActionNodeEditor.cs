@@ -45,8 +45,8 @@ namespace QuestEditor.Nodes.Editor
             // Iterate through dynamic ports and draw them in the order in which they are serialized
             foreach (NodePort dynamicPort in target.DynamicPorts)
             {
-                if (NodeEditorGUILayout.IsDynamicPortListPort(dynamicPort)) continue;
-                NodeEditorGUILayout.PortField(dynamicPort);
+                if (NodeEditorGuiLayout.IsDynamicPortListPort(dynamicPort)) continue;
+                NodeEditorGuiLayout.PortField(dynamicPort);
             }
 
             serializedObject.ApplyModifiedProperties();
@@ -85,16 +85,16 @@ namespace QuestEditor.Nodes.Editor
 
             // Update child inputs with changes.
             EditorGUI.BeginChangeCheck();
-            NodeEditorGUILayout.PropertyField(property, label, port);
+            NodeEditorGuiLayout.PropertyField(property, label, port);
 
             if (!EditorGUI.EndChangeCheck()) return;
-            serializedObject.ApplyModifiedProperties();
 
             NodePort outputPort = node.GetOutputPort(property.name);
             if (outputPort == null || !outputPort.IsConnected) return;
             NodePort inputPort = outputPort.Connection;
 
             var otherNode = inputPort.node as IWatchInput;
+            serializedObject.ApplyModifiedProperties();
             if (otherNode != null) otherNode.InputChanged(inputPort.fieldName, property);
         }
     }
