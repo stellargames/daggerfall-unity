@@ -1,0 +1,334 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f5967c16d7bb2640adfc77816ddb688, type: 3}
+  m_Name: Sample Quest
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 114523297170076608}
+  - {fileID: 114032027152951300}
+  - {fileID: 114279393333621652}
+  - {fileID: 114808316310187072}
+  - {fileID: 114384704192172056}
+  - {fileID: 114106237318610902}
+  uid: 0
+  questComplete: 0
+  questSuccess: 0
+  questName: __SAMPLE001
+  displayName: Sample
+  factionId: 0
+  questStartTime:
+    Year: 405
+    Month: 5
+    Day: 0
+    Hour: 12
+    Minute: 0
+    Second: 0
+  questTombstoned: 0
+  questTombstoneTime:
+    Year: 405
+    Month: 5
+    Day: 0
+    Hour: 12
+    Minute: 0
+    Second: 0
+  activeLogMessages: []
+--- !u!114 &114032027152951300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f14e49404d4b93842b086a1fc3e947b0, type: 3}
+  m_Name: Foe
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -568, y: -152}
+  ports:
+    keys:
+    - foe
+    values:
+    - _fieldName: foe
+      _node: {fileID: 114032027152951300}
+      _typeQualifiedName: QuestEditor.Nodes.Resources.FoeNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: foe
+        node: {fileID: 114279393333621652}
+        reroutePoints: []
+      - fieldName: foe
+        node: {fileID: 114808316310187072}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  symbol: Baddies
+  infoMessageId: 0
+  usedMessageId: 0
+  rumorsMessageId: 0
+  isHidden: 0
+  foe: {fileID: 0}
+  spawnCount: 1
+  displayName: 
+  foeType: 133
+  humanoidGender: 0
+  injuredTrigger: 0
+  restrained: 0
+--- !u!114 &114106237318610902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe2f5620af66a034da544784c3185849, type: 3}
+  m_Name: End Quest
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 312, y: -40}
+  ports:
+    keys:
+    - triggered
+    values:
+    - _fieldName: triggered
+      _node: {fileID: 114106237318610902}
+      _typeQualifiedName: QuestEditor.Nodes.TaskNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: trigger 0
+        node: {fileID: 114384704192172056}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  triggered: {fileID: 0}
+  isTriggerCondition: 0
+  textId: 0
+--- !u!114 &114279393333621652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e5aeb2bdc978c74bbbaa513808a2a2c, type: 3}
+  m_Name: Create Foe
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -248, y: -280}
+  ports:
+    keys:
+    - foe
+    - triggered
+    values:
+    - _fieldName: foe
+      _node: {fileID: 114279393333621652}
+      _typeQualifiedName: QuestEditor.Nodes.Resources.FoeNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: foe
+        node: {fileID: 114032027152951300}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: triggered
+      _node: {fileID: 114279393333621652}
+      _typeQualifiedName: QuestEditor.Nodes.TaskNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: trigger 0
+        node: {fileID: 114523297170076608}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  triggered: {fileID: 0}
+  isTriggerCondition: 0
+  foe: {fileID: 114032027152951300}
+  spawnInterval: 5
+  spawnMaxTimes: 9
+  spawnChance: 100
+  msgMessageId: 0
+--- !u!114 &114384704192172056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e2c96167f8df440a6ac05e090d5f63, type: 3}
+  m_Name: Task
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 40, y: -40}
+  ports:
+    keys:
+    - triggered
+    - trigger
+    - trigger 0
+    values:
+    - _fieldName: triggered
+      _node: {fileID: 114384704192172056}
+      _typeQualifiedName: System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: trigger
+        node: {fileID: 114808316310187072}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: trigger
+      _node: {fileID: 114384704192172056}
+      _typeQualifiedName: QuestEditor.Nodes.TaskNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: trigger 0
+      _node: {fileID: 114384704192172056}
+      _typeQualifiedName: QuestEditor.Nodes.TaskNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: triggered
+        node: {fileID: 114106237318610902}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 1
+  type: 1
+  symbol: Success
+  triggered: 0
+  trigger: {fileID: 0}
+--- !u!114 &114523297170076608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e2c96167f8df440a6ac05e090d5f63, type: 3}
+  m_Name: Task
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -568, y: -360}
+  ports:
+    keys:
+    - triggered
+    - trigger
+    - trigger 0
+    values:
+    - _fieldName: triggered
+      _node: {fileID: 114523297170076608}
+      _typeQualifiedName: System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: trigger
+      _node: {fileID: 114523297170076608}
+      _typeQualifiedName: QuestEditor.Nodes.TaskNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+    - _fieldName: trigger 0
+      _node: {fileID: 114523297170076608}
+      _typeQualifiedName: QuestEditor.Nodes.TaskNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: triggered
+        node: {fileID: 114279393333621652}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 1
+  type: 0
+  symbol: 
+  triggered: 0
+  trigger: {fileID: 0}
+--- !u!114 &114808316310187072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 378ad89b358c6e3449b8e89c40bf3f95, type: 3}
+  m_Name: Killed Foe Trigger
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -248, y: -40}
+  ports:
+    keys:
+    - foe
+    - trigger
+    - triggered
+    values:
+    - _fieldName: foe
+      _node: {fileID: 114808316310187072}
+      _typeQualifiedName: QuestEditor.Nodes.Resources.FoeNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: foe
+        node: {fileID: 114032027152951300}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: trigger
+      _node: {fileID: 114808316310187072}
+      _typeQualifiedName: System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: triggered
+        node: {fileID: 114384704192172056}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: triggered
+      _node: {fileID: 114808316310187072}
+      _typeQualifiedName: QuestEditor.Nodes.TaskNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 2
+      _dynamic: 0
+  triggered: {fileID: 0}
+  isTriggerCondition: 1
+  foe: {fileID: 114032027152951300}
+  killsRequired: 1
+  sayingId: 0
+  trigger: 0
