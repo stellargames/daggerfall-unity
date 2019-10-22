@@ -7,7 +7,7 @@ namespace QuestEditor.Nodes.Actions
     [CreateNodeMenu("Action/EndQuest")]
     public class EndQuestNode : ActionNode
     {
-        public int textId;
+        public MessageReference message;
 
         public override ActionTemplate GetAction()
         {
@@ -18,7 +18,7 @@ namespace QuestEditor.Nodes.Actions
 
         protected override object GetSaveData()
         {
-            return new EndQuest.SaveData_v1 {textId = textId };
+            return new EndQuest.SaveData_v1 {textId = message.id };
         }
 
         protected override Type GetActionType()

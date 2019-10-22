@@ -14,8 +14,10 @@ namespace QuestEditor.Nodes.Actions
         public uint spawnInterval;
 
         public int spawnMaxTimes;
+
         [Range(0, 100)] public int spawnChance = 100;
-        public int msgMessageId;
+
+        public MessageReference message;
 
         public override ActionTemplate GetAction()
         {
@@ -36,7 +38,7 @@ namespace QuestEditor.Nodes.Actions
                 spawnChance = spawnChance,
                 spawnCounter = 0,
                 isSendAction = false,
-                msgMessageID = msgMessageId
+                msgMessageID = message.id
             };
         }
 

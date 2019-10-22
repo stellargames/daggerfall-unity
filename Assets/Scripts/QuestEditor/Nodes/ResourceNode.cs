@@ -14,9 +14,9 @@ namespace QuestEditor.Nodes
         }
 
         [SerializeField] private string symbol;
-        public int infoMessageId;
-        public int usedMessageId;
-        public int rumorsMessageId;
+        public MessageReference infoMessage;
+        public MessageReference usedMessage;
+        public MessageReference rumorsMessage;
         public bool isHidden;
         protected Quest Quest;
 
@@ -37,9 +37,9 @@ namespace QuestEditor.Nodes
             {
                 type = GetResourceType(),
                 symbol = new Symbol(symbol),
-                infoMessageID = infoMessageId,
-                rumorsMessageID = rumorsMessageId,
-                usedMessageID = usedMessageId,
+                infoMessageID = infoMessage.id,
+                rumorsMessageID = rumorsMessage.id,
+                usedMessageID = usedMessage.id,
                 hasPlayerClicked = false,
                 isHidden = isHidden,
                 resourceSpecific = GetSaveData()

@@ -14,7 +14,7 @@ namespace QuestEditor.Nodes.Triggers
         [Input(ShowBackingValue.Never)] public FoeNode foe;
 
         [Range(1, 1000)] public int killsRequired;
-        public int sayingId;
+        public MessageReference message;
 
         [Output(ShowBackingValue.Always)] public bool trigger;
 
@@ -54,7 +54,7 @@ namespace QuestEditor.Nodes.Triggers
             {
                 foeSymbol = new Symbol(foe.name),
                 killsRequired = killsRequired,
-                sayingID = sayingId
+                sayingID = message.id
             };
         }
     }
