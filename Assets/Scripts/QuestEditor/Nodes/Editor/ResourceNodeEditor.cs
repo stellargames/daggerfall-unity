@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using XNodeEditor;
 
@@ -14,5 +15,12 @@ namespace QuestEditor.Nodes.Editor
         
             GUILayout.Label(text, NodeEditorResources.styles.nodeHeader, GUILayout.Height(30));
         }
+
+        public override void OnBodyGUI()
+        {
+            EditorGUIUtility.labelWidth = 120;
+            base.OnBodyGUI();
+        }
+
     }
 }

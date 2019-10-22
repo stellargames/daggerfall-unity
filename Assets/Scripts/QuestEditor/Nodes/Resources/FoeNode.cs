@@ -17,7 +17,8 @@ namespace QuestEditor.Nodes.Resources
     public class FoeNode : ResourceNode
     {
         [Output] public FoeNode foe;
-        [Range(1, Foe.maxSpawnCount)] public int spawnCount = 1;
+        // Todo: make Foe.maxSpawnCount public so we can use it.
+        [Range(1, 8)] public int spawnCount = 1;
         public string displayName;
         public MobileTypes foeType;
         public Genders humanoidGender;

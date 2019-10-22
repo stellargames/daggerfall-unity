@@ -12,6 +12,7 @@ namespace QuestEditor.Nodes.Editor
         /// <summary> Draws standard field editors for all public fields </summary>
         public override void OnBodyGUI()
         {
+            EditorGUIUtility.labelWidth = 100;
 #if ODIN_INSPECTOR
             inNodeEditor = true;
 #endif
@@ -57,9 +58,6 @@ namespace QuestEditor.Nodes.Editor
                 GUIHelper.ClearRepaintRequest();
                 window.Repaint();
             }
-#endif
-
-#if ODIN_INSPECTOR
             inNodeEditor = false;
 #endif
         }
@@ -68,6 +66,7 @@ namespace QuestEditor.Nodes.Editor
         {
             var node = property.serializedObject.targetObject as ActionNode;
             if (node == null) return;
+            // Do not show triggered property on trigger action nodes.
             if (node.isTriggerCondition && property.name == "triggered") return;
             NodePort port = node.GetPort(property.name);
             GUIContent label = null;
