@@ -19,10 +19,15 @@ namespace QuestEditor.Editor
 
         private SerializedProperty source;
 
+        private readonly GUIContent addVariantButton = new GUIContent("Add variant",
+            "Add a variation of the message. One variant will randomly be chosen when this message is used.");
+
+        private readonly GUIContent deleteVariantButton = new GUIContent("x", "Delete this variation");
+
         public static void Open(SerializedProperty property, QuestNodeGraph quest)
         {
             var window = GetWindow<MessageReferenceEditorWindow>("Text Editor");
-            window.minSize = new Vector2(400, 200);
+            window.minSize = new Vector2(530, 200);
             window.Init(property, quest);
             window.ShowUtility();
         }
@@ -44,26 +49,39 @@ namespace QuestEditor.Editor
 
         public void OnGUI ()
         {
-            if (DropDownOptions.Length > 0)
-                MessageSelectorDropDown();
+            EditorGUIUtility.labelWidth = 100;
+            EditorGUIUtility.fieldWidth = 200;
 
-            if (GUILayout.Button("Create new"))
-            {
-                message = quest.CreateMessage();
-                ChangeSelectedMessage();
-            }
+            Header();
 
             if (message == null) return;
 
             MessageEditor();
 
+            Footer();
+        }
+
+        private void Header()
+        {
+            if (DropDownOptions.Length > 0)
+                MessageSelectorDropDown();
+
+            if (GUILayout.Button("Create new", GUILayout.ExpandWidth(false)))
+            {
+                message = quest.CreateMessage();
+                ChangeSelectedMessage();
+            }
+        }
+
+        private void Footer()
+        {
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Delete"))
+            if (GUILayout.Button("Delete", GUILayout.ExpandWidth(false)))
             {
                 DeleteMessage();
             }
 
-            if (GUILayout.Button("Save"))
+            if (GUILayout.Button("Save", GUILayout.ExpandWidth(false)))
             {
                 UpdateSource();
                 Close();
@@ -82,7 +100,12 @@ namespace QuestEditor.Editor
 
         private void MessageEditor()
         {
-            message.id = EditorGUILayout.IntField("Id", message.id);
+            GUILayout.BeginHorizontal();
+            message.name = EditorGUILayout.TextField("Name", message.name, GUILayout.ExpandWidth(false));
+            EditorGUIUtility.labelWidth = 50;
+            EditorGUIUtility.fieldWidth = 50;
+            message.id = EditorGUILayout.IntField("Id", message.id, GUILayout.ExpandWidth(false));
+            GUILayout.EndHorizontal();
 
             for (int i = 0; i < message.variants.Count; i++)
             {
@@ -100,7 +123,7 @@ namespace QuestEditor.Editor
 
                 GUILayout.BeginHorizontal();
                 message.variants[i] = editor.Draw();
-                if (i > 0 && GUILayout.Button("x"))
+                if (i > 0 && GUILayout.Button(deleteVariantButton, GUILayout.ExpandWidth(false)))
                 {
                     message.variants.RemoveAt(i);
                 }
@@ -108,7 +131,7 @@ namespace QuestEditor.Editor
                 GUILayout.EndHorizontal();
             }
 
-            if (GUILayout.Button("+"))
+            if (GUILayout.Button(addVariantButton, GUILayout.ExpandWidth(false)))
             {
                 message.variants.Add("");
             }
@@ -116,7 +139,8 @@ namespace QuestEditor.Editor
 
         private void MessageSelectorDropDown()
         {
-            int index = EditorGUILayout.Popup(messageIndex, DropDownOptions);
+            int index = EditorGUILayout.Popup("Select message:", messageIndex, DropDownOptions, GUILayout.ExpandWidth(false));
+
             if (index < 0 || index == messageIndex) return;
 
             messageIndex = index;

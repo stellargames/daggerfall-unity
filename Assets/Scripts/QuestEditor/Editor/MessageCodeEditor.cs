@@ -40,7 +40,7 @@ namespace QuestEditor.Editor
                 padding = new RectOffset(6, 6, 6, 6),
                 font = font,
                 fontSize = 20,
-                wordWrap = false
+                wordWrap = true
             };
         }
 
@@ -48,7 +48,8 @@ namespace QuestEditor.Editor
         {
             GUILayoutOption minHeight = GUILayout.MinHeight(100);
             GUILayoutOption maxHeight = GUILayout.MaxHeight(Screen.height);
-            scrollPos = EditorGUILayout.BeginScrollView(scrollPos, minHeight, maxHeight);
+            GUILayoutOption fixedWidth = GUILayout.Width(500);
+            scrollPos = EditorGUILayout.BeginScrollView(scrollPos, minHeight, maxHeight, fixedWidth);
             string editedCode = editor.Draw(Value, guiStyle, GUILayout.ExpandHeight(true));
             if (editedCode != Value)
             {
