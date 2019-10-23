@@ -23,9 +23,41 @@ MonoBehaviour:
   factionId: 0
   messages:
   - id: 1101
-    name: 
+    name: my desc text
     variants:
-    - 'fd gew456 t34y5yh5 '
+    - '<ce>_dummy_
+
+      <ce>__dummy_
+
+      <ce>___dummy_
+
+      <ce>=dummy_
+
+      <ce>==dummy_
+
+'
+    - var 2
+  - id: 1103
+    name: another one
+    variants:
+    - this is the text for another one
+  - id: 1122
+    name: boofar
+    variants:
+    - "\telement 1122\n"
+  - id: 1015
+    name: Finger info
+    variants:
+    - <ce>I wouldn't know anything about that. Try asking at a temple.
+    - <ce>_sage_ knows about such things. Go ask %g2.
+    - '<ce>Have you tried asking around at __sage_ in ___sage_?
+
+      <ce>=dummy_ ==dummy_'
+    - <ce>I hear that someone in ___sage_ might know about such things.
+    - <ce>They say that _sage_ is the foremost expert in such things.
+    - '<ce>Maybe that sage at __sage_ knows.
+
+      <ce>They seem pretty knowledgable.'
 --- !u!114 &114032027152951300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,7 +92,7 @@ MonoBehaviour:
       _dynamic: 0
   symbol: Baddies
   infoMessage:
-    id: 0
+    id: 1123
   usedMessage:
     id: 0
   rumorsMessage:
@@ -155,7 +187,7 @@ MonoBehaviour:
   spawnMaxTimes: 9
   spawnChance: 100
   message:
-    id: 0
+    id: 1101
 --- !u!114 &114301426348629420
 MonoBehaviour:
   m_ObjectHideFlags: 0

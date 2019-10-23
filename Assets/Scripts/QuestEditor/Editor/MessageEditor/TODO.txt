@@ -1,0 +1,26 @@
+// @TODO:
+
+Things to improve on the message editor
+
+Message editor window:
+- Fix cursor color
+- Hover over symbols to show their meaning and/or value
+- Autocomplete on %, _ and =
+- right-click context menu: npc/place/foe => symbol => rendered version of _ and = macros, inserts the symbol.  
+- better vertical scaling/resizing
+- Add close button to close window, or apply button, or close & apply
+- autofocus the name field when Creating new message
+- better background color?
+- make variant dlete button a small red x in the top-right corner of the variant
+- add key-combo to (un)center selection or current line
+- add search functionality to find messages
+
+Graph nodes:
+- show name on button in stead of id when available
+- show (entire/abbreviated?) message in tooltip of button
+
+Quest Node Graph editing:
+- Show messages as a foldout list of editors
+- Add delete buttons to messages
+- Add delete buttons to variants
+

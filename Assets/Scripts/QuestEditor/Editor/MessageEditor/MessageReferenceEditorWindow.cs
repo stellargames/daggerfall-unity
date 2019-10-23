@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
-using System.Security.Principal;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.AI;
 
-namespace QuestEditor.Editor
+namespace QuestEditor.Editor.MessageEditor
 {
     public class MessageReferenceEditorWindow : EditorWindow
     {
@@ -26,8 +24,8 @@ namespace QuestEditor.Editor
 
         public static void Open(SerializedProperty property, QuestNodeGraph quest)
         {
-            var window = GetWindow<MessageReferenceEditorWindow>("Text Editor");
-            window.minSize = new Vector2(530, 200);
+            var window = GetWindow<MessageReferenceEditorWindow>("Message Editor");
+            window.minSize = new Vector2(550, 200);
             window.Init(property, quest);
             window.ShowUtility();
         }
@@ -76,12 +74,12 @@ namespace QuestEditor.Editor
         private void Footer()
         {
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Delete", GUILayout.ExpandWidth(false)))
+            if (GUILayout.Button("Delete message", GUILayout.ExpandWidth(false)))
             {
                 DeleteMessage();
             }
 
-            if (GUILayout.Button("Save", GUILayout.ExpandWidth(false)))
+            if (GUILayout.Button("Save to node", GUILayout.ExpandWidth(false)))
             {
                 UpdateSource();
                 Close();
@@ -107,28 +105,10 @@ namespace QuestEditor.Editor
             message.id = EditorGUILayout.IntField("Id", message.id, GUILayout.ExpandWidth(false));
             GUILayout.EndHorizontal();
 
+
             for (int i = 0; i < message.variants.Count; i++)
             {
-                MessageCodeEditor editor = null;
-                string controlName = string.Format("message_{0}_variant_{1}", message.id, i);
-                if (editors.ContainsKey(controlName))
-                {
-                    editor = editors[controlName];
-                }
-                else
-                {
-                    editor = new MessageCodeEditor(controlName, message.variants[i]);
-                    editors.Add(controlName, editor);
-                }
-
-                GUILayout.BeginHorizontal();
-                message.variants[i] = editor.Draw();
-                if (i > 0 && GUILayout.Button(deleteVariantButton, GUILayout.ExpandWidth(false)))
-                {
-                    message.variants.RemoveAt(i);
-                }
-
-                GUILayout.EndHorizontal();
+                VariantEditor(i);
             }
 
             if (GUILayout.Button(addVariantButton, GUILayout.ExpandWidth(false)))
@@ -137,9 +117,35 @@ namespace QuestEditor.Editor
             }
         }
 
+        private void VariantEditor(int i)
+        {
+            MessageCodeEditor editor;
+            string controlName = string.Format("message_{0}_variant_{1}", message.id, i);
+            if (editors.ContainsKey(controlName))
+            {
+                editor = editors[controlName];
+            }
+            else
+            {
+                editor = new MessageCodeEditor(controlName, message.variants[i]);
+                editors.Add(controlName, editor);
+            }
+
+            GUILayout.BeginHorizontal();
+            message.variants[i] = editor.Draw();
+            
+            if (i > 0 && GUILayout.Button(deleteVariantButton, GUILayout.ExpandWidth(false)))
+            {
+                message.variants.RemoveAt(i);
+            }
+            GUILayout.EndHorizontal();
+        }
+
         private void MessageSelectorDropDown()
         {
+            EditorGUILayout.Space();
             int index = EditorGUILayout.Popup("Select message:", messageIndex, DropDownOptions, GUILayout.ExpandWidth(false));
+            EditorGUILayout.Space();
 
             if (index < 0 || index == messageIndex) return;
 
