@@ -158,14 +158,14 @@ namespace QuestEditor.Nodes.Editor
 
                 rect.size = new Vector2(16, 16);
 
-                NodeEditor editor = NodeEditor.GetEditor(port.node, NodeEditorWindow.current);
+                XNodeEditor.NodeEditor editor = NodeEditor.GetEditor(port.node, NodeEditorWindow.current);
                 Color backgroundColor = editor.GetTint();
                 Color col = NodeEditorWindow.current.graphEditor.GetPortColor(port);
                 DrawPortHandle(rect, backgroundColor, col);
 
                 // Register the handle position
                 Vector2 portPos = rect.center;
-                NodeEditor.portPositions[port] = portPos;
+                XNodeEditor.NodeEditor.portPositions[port] = portPos;
             }
         }
 
@@ -219,14 +219,14 @@ namespace QuestEditor.Nodes.Editor
 
             Rect rect = new Rect(position, new Vector2(16, 16));
 
-            NodeEditor editor = NodeEditor.GetEditor(port.node, NodeEditorWindow.current);
+            XNodeEditor.NodeEditor editor = NodeEditor.GetEditor(port.node, NodeEditorWindow.current);
             Color backgroundColor = editor.GetTint();
             Color col = NodeEditorWindow.current.graphEditor.GetPortColor(port);
             DrawPortHandle(rect, backgroundColor, col);
 
             // Register the handle position
             Vector2 portPos = rect.center;
-            NodeEditor.portPositions[port] = portPos;
+            XNodeEditor.NodeEditor.portPositions[port] = portPos;
         }
 
         private static void DrawPortHandle(Rect rect, Color backgroundColor, Color typeColor)
