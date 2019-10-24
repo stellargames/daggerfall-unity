@@ -100,11 +100,12 @@ MonoBehaviour:
   isHidden: 0
   foe: {fileID: 0}
   spawnCount: 1
-  displayName: 
-  foeType: 133
-  humanoidGender: 0
+  displayName: Skulloker
+  foeType: 35
+  gender: 0
   injuredTrigger: 0
   restrained: 0
+  customDisplayName: 0
 --- !u!114 &114106237318610902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,7 +239,7 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 1
   type: 0
-  symbol: 
+  symbol: init
   triggered: 0
   trigger: {fileID: 0}
 --- !u!114 &114384704192172056
@@ -354,5 +355,5 @@ MonoBehaviour:
   foe: {fileID: 114032027152951300}
   killsRequired: 1
   message:
-    id: 1102
+    id: 1103
   trigger: 0

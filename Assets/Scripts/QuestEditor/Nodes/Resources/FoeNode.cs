@@ -21,10 +21,12 @@ namespace QuestEditor.Nodes.Resources
         [Range(1, 8)] public int spawnCount = 1;
         public string displayName;
         public MobileTypes foeType;
-        public Genders humanoidGender;
+        public Genders gender;
         public bool injuredTrigger;
         public bool restrained;
 
+        [HideInInspector] public bool customDisplayName;
+        
         private Type type;
         private Foe.SaveData_v1 resourceSpecific;
         private ItemCollection itemQueue = new ItemCollection();
@@ -48,7 +50,7 @@ namespace QuestEditor.Nodes.Resources
             {
                 spawnCount = spawnCount,
                 foeType = foeType,
-                humanoidGender = humanoidGender,
+                humanoidGender = gender,
                 injuredTrigger = injuredTrigger,
                 restrained = restrained,
                 killCount = 0,
@@ -59,22 +61,26 @@ namespace QuestEditor.Nodes.Resources
             };
         }
 
+        public void UpdateDisplayName()
+        {
+            displayName = GetDisplayName(foeType);
+            customDisplayName = false;
+        }
+
         private string GetDisplayName(MobileTypes mobileType)
         {
             // Monster types get a random monster name
             if (mobileType <= MobileTypes.Mage)
             {
                 DFRandom.srand(DateTime.Now.Millisecond + DFRandom.random_range(1, 1000000));
+                gender = Genders.Male;
                 return DaggerfallUnity.Instance.NameHelper.MonsterName();
             }
-
-            // Randomly assign a gender for humanoid foes
-            humanoidGender = (UnityEngine.Random.Range(0.0f, 1.0f) < 0.5f) ? Genders.Male : Genders.Female;
 
             // Create a random display name for humanoid foes
             DFRandom.srand(DateTime.Now.Millisecond);
             NameHelper.BankTypes nameBank = GameManager.Instance.PlayerGPS.GetNameBankOfCurrentRegion();
-            return DaggerfallUnity.Instance.NameHelper.FullName(nameBank, humanoidGender);
+            return DaggerfallUnity.Instance.NameHelper.FullName(nameBank, gender);
         }
 
         private static string GetTypeName(MobileTypes mobileType)
