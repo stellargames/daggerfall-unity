@@ -13,12 +13,11 @@ namespace QuestEditor
     {
         public string questName;
         public string displayName;
-        public int factionId;
-
+        public FactionReference selectedFaction;
         public List<TextResource> messages = new List<TextResource>();
+        public Quest Quest { get; private set; }
 
         private const int StartingMessageId = 1100;
-        public Quest Quest { get; private set; }
 
         private ulong uid;
         private bool questComplete;
@@ -26,12 +25,9 @@ namespace QuestEditor
         private DaggerfallDateTime questStartTime;
         private bool questTombstoned;
         private DaggerfallDateTime questTombstoneTime;
-
-        private List<Quest.LogEntry> activeLogMessages;
-
-//        private readonly Dictionary<int, TextResource> messages = new Dictionary<int, TextResource>();
+        private List<Quest.LogEntry> activeLogMessages = new List<Quest.LogEntry>();
         private QuestResource.ResourceSaveData_v1[] resources;
-        private Dictionary<string, Quest.QuestorData> questors;
+        private Dictionary<string, Quest.QuestorData> questors = new Dictionary<string, Quest.QuestorData>();
         private Task.TaskSaveData_v1[] tasks;
 
         public Quest GetQuest()
@@ -68,20 +64,6 @@ namespace QuestEditor
             return StartingMessageId;
         }
 
-        public void SetMessage(TextResource message)
-        {
-            int index = messages.FindIndex(x => x.id == message.id);
-            if (index < 0)
-            {
-                messages.Add(message);
-            }
-            else
-            {
-                messages[index] = message;
-            }
-        }
-
-
         private Quest.QuestSaveData_v1 GetSaveData()
         {
             List<QuestResource.ResourceSaveData_v1> resourceSaveDataList = new List<QuestResource.ResourceSaveData_v1>();
@@ -102,12 +84,12 @@ namespace QuestEditor
 
             return new Quest.QuestSaveData_v1
             {
-                uid = uid,
+                uid = Quest.UID,
                 questComplete = false,
                 questSuccess = false,
                 questName = questName,
                 displayName = displayName,
-                factionId = factionId,
+                factionId = selectedFaction.id,
                 questStartTime = null,
                 questTombstoned = false,
                 questTombstoneTime = null,
